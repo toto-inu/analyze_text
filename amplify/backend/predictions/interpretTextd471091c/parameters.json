@@ -1,0 +1,13 @@
+{
+    "resourceName": "interpretTextd471091c",
+    "interpretPolicyName": "interpretPolicyd471091c",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "interpretType": "interpretText",
+    "type": "ALL",
+    "access": "authAndGuest"
+}
