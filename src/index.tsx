@@ -6,6 +6,13 @@ import { Provider } from "react-redux";
 import * as serviceWorker from "./serviceWorker";
 import { ChakraProvider } from "@chakra-ui/react";
 
+import Amplify from "aws-amplify";
+import awsconfig from "./aws-exports";
+import { AmazonAIPredictionsProvider } from "@aws-amplify/predictions";
+
+Amplify.configure(awsconfig);
+Amplify.addPluggable(new AmazonAIPredictionsProvider());
+
 ReactDOM.render(
   <React.StrictMode>
     <ChakraProvider>
