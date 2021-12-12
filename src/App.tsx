@@ -1,58 +1,43 @@
-import React from "react";
-import logo from "./logo.svg";
-import { Counter } from "./features/counter/Counter";
-import "@/App.css";
+import { Box, HStack, Button, Textarea, Center } from "@chakra-ui/react";
+import { useFormik } from "formik";
 
-function App() {
+export const App = () => {
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: { targetText: "" },
+    onSubmit: async (v) => {
+      console.log("⛰⛰⛰⛰⛰⛰", JSON.stringify(v, null, 2));
+    },
+  });
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
+    <form onSubmit={formik.handleSubmit}>
+      <Center mt="80px">
+        <HStack maxW="789px" w="100%">
+          <Textarea
+            name="targetText"
+            placeholder="感情分析するテキストを入力ください"
+            size="md"
+            resize="none"
+            h="120px"
+            onChange={formik.handleChange}
+          />
+          <Box w="80px" pos="relative" h="120px">
+            <Button
+              type="submit"
+              colorScheme="teal"
+              size="md"
+              pos="absolute"
+              bottom="8px"
+              disabled={
+                Object.keys(formik.errors).length > 0 ||
+                formik.values.targetText.length === 0
+              }
+            >
+              GO {">"}
+            </Button>
+          </Box>
+        </HStack>
+      </Center>
+    </form>
   );
-}
-
-export default App;
+};
