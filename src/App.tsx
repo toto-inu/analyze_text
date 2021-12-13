@@ -112,7 +112,7 @@ export const App = () => {
             <SentiSlider positive={false} value={negativeValue} />
           </VStack>
           <Table variant="simple">
-            <TableCaption>Imperial to metric conversion factors</TableCaption>
+            <TableCaption>analyze history. powered by AWS Amplify</TableCaption>
             <Thead>
               <Tr>
                 <Th>対象テキスト</Th>
@@ -122,18 +122,30 @@ export const App = () => {
               </Tr>
             </Thead>
             <Tbody>
-              {texts.map((text: Text) => {
-                return (
-                  <Tr>
-                    <Td>{text.text}</Td>
-                    <Td isNumeric>{text.positive}</Td>
-                    <Td isNumeric>{text.negative}</Td>
-                    <Td>
-                      {format(new Date(text.createdAt), "yyyy-MM-dd HH:mm:ss")}
-                    </Td>
-                  </Tr>
-                );
-              })}
+              {texts
+                .slice()
+                .sort((a: Text, b: Text) => {
+                  if (new Date(a.createdAt) < new Date(b.createdAt)) return 1;
+                  if (new Date(a.createdAt) > new Date(b.createdAt)) return -1;
+                  return 0;
+                })
+                .slice(0, 10)
+                .map((text: Text) => {
+                  console.log(text);
+                  return (
+                    <Tr>
+                      <Td>{text.text}</Td>
+                      <Td isNumeric>{text.positive}</Td>
+                      <Td isNumeric>{text.negative}</Td>
+                      <Td>
+                        {format(
+                          new Date(text.createdAt),
+                          "yyyy-MM-dd HH:mm:ss"
+                        )}
+                      </Td>
+                    </Tr>
+                  );
+                })}
             </Tbody>
           </Table>
         </VStack>
