@@ -1,5 +1,7 @@
-type Todo @model {
+type AnalyzedText @model @key(fields: ["id"]) {
   id: ID!
-  name: String!
-  description: String
+  text: String!
+  engText: String!
+  positive: Int!
+  negative: Int!
 }

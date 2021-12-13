@@ -2,28 +2,40 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getTodo = /* GraphQL */ `
-  query GetTodo($id: ID!) {
-    getTodo(id: $id) {
+export const getAnalyzedText = /* GraphQL */ `
+  query GetAnalyzedText($id: ID!) {
+    getAnalyzedText(id: $id) {
       id
-      name
-      description
+      text
+      engText
+      positive
+      negative
       createdAt
       updatedAt
     }
   }
 `;
-export const listTodos = /* GraphQL */ `
-  query ListTodos(
-    $filter: ModelTodoFilterInput
+export const listAnalyzedTexts = /* GraphQL */ `
+  query ListAnalyzedTexts(
+    $id: ID
+    $filter: ModelAnalyzedTextFilterInput
     $limit: Int
     $nextToken: String
+    $sortDirection: ModelSortDirection
   ) {
-    listTodos(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listAnalyzedTexts(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
       items {
         id
-        name
-        description
+        text
+        engText
+        positive
+        negative
         createdAt
         updatedAt
       }

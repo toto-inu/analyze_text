@@ -16,6 +16,7 @@
     "@types/react-dom": "^16.9.0",
     "@types/react-redux": "^7.1.20",
     "aws-amplify": "^4.3.10",
+    "date-fns": "^2.27.0",
     "formik": "^2.2.9",
     "framer-motion": "^4",
     "react": "^17.0.2",

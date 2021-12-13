@@ -8,6 +8,7 @@ import {
 type Props = {
   positive: boolean;
   value: number;
+  style?: any;
 };
 
 export const SentiSlider = (props: Props) => {
@@ -18,6 +19,7 @@ export const SentiSlider = (props: Props) => {
       defaultValue={50}
       value={props.value}
       isReadOnly
+      {...props.style}
     >
       <SliderTrack>
         <SliderFilledTrack />

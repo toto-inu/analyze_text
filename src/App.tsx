@@ -5,14 +5,37 @@ import {
   Button,
   Textarea,
   Center,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 
 import { SentiSlider } from "@/components/atoms/SentiSlider";
 import { analyzeText, translateJaToEn } from "@/components/predictions";
+import { fetchText, selectText, createText } from "@/components/graphql/text";
+
+import { format } from "date-fns";
+
+type Text = {
+  id: string;
+  text: string;
+  engText: string;
+  positive: number;
+  negative: number;
+  createdAt: string;
+  updatedAt: string;
+};
 
 export const App = () => {
+  const dispatch = useDispatch();
+  const texts = useSelector(selectText);
   const [positiveValue, setPositiveValue] = useState(50);
   const [negativeValue, setNegativeValue] = useState(50);
   const formik = useFormik({
@@ -33,14 +56,33 @@ export const App = () => {
         const { positive, negative } = result.textInterpretation.sentiment;
         setPositiveValue(positive * 100);
         setNegativeValue(negative * 100);
+
+        // Dynamoテーブルに保存
+        try {
+          const params = {
+            text: targetText,
+            engText: translatedText,
+            positive: Math.ceil(positive * 100),
+            negative: Math.ceil(negative * 100),
+          };
+          await dispatch(createText(params));
+        } catch (err) {
+          console.log("👹", err);
+        }
       }
     },
   });
+  useEffect(() => {
+    (async () => {
+      console.log("hoge", dispatch);
+      await dispatch(fetchText());
+    })();
+  }, [dispatch]);
   return (
-    <form onSubmit={formik.handleSubmit}>
+    <form onSubmit={formik.handleSubmit} style={{ width: "100%" }}>
       <Center mt="80px">
-        <VStack>
-          <HStack maxW="789px" w="100%">
+        <VStack w="100%" maxW="789px" spacing="80px">
+          <HStack>
             <Textarea
               name="targetText"
               placeholder="感情分析するテキストを入力ください"
@@ -65,8 +107,35 @@ export const App = () => {
               </Button>
             </Box>
           </HStack>
-          <SentiSlider positive value={positiveValue} />
-          <SentiSlider positive={false} value={negativeValue} />
+          <VStack w="100%" mt="80px">
+            <SentiSlider positive value={positiveValue} />
+            <SentiSlider positive={false} value={negativeValue} />
+          </VStack>
+          <Table variant="simple">
+            <TableCaption>Imperial to metric conversion factors</TableCaption>
+            <Thead>
+              <Tr>
+                <Th>対象テキスト</Th>
+                <Th isNumeric>POSITIVEスコア</Th>
+                <Th isNumeric>NEGATIVEスコア</Th>
+                <Th>分析日</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {texts.map((text: Text) => {
+                return (
+                  <Tr>
+                    <Td>{text.text}</Td>
+                    <Td isNumeric>{text.positive}</Td>
+                    <Td isNumeric>{text.negative}</Td>
+                    <Td>
+                      {format(new Date(text.createdAt), "yyyy-MM-dd HH:mm:ss")}
+                    </Td>
+                  </Tr>
+                );
+              })}
+            </Tbody>
+          </Table>
         </VStack>
       </Center>
     </form>

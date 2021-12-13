@@ -2,43 +2,49 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createTodo = /* GraphQL */ `
-  mutation CreateTodo(
-    $input: CreateTodoInput!
-    $condition: ModelTodoConditionInput
+export const createAnalyzedText = /* GraphQL */ `
+  mutation CreateAnalyzedText(
+    $input: CreateAnalyzedTextInput!
+    $condition: ModelAnalyzedTextConditionInput
   ) {
-    createTodo(input: $input, condition: $condition) {
+    createAnalyzedText(input: $input, condition: $condition) {
       id
-      name
-      description
+      text
+      engText
+      positive
+      negative
       createdAt
       updatedAt
     }
   }
 `;
-export const updateTodo = /* GraphQL */ `
-  mutation UpdateTodo(
-    $input: UpdateTodoInput!
-    $condition: ModelTodoConditionInput
+export const updateAnalyzedText = /* GraphQL */ `
+  mutation UpdateAnalyzedText(
+    $input: UpdateAnalyzedTextInput!
+    $condition: ModelAnalyzedTextConditionInput
   ) {
-    updateTodo(input: $input, condition: $condition) {
+    updateAnalyzedText(input: $input, condition: $condition) {
       id
-      name
-      description
+      text
+      engText
+      positive
+      negative
       createdAt
       updatedAt
     }
   }
 `;
-export const deleteTodo = /* GraphQL */ `
-  mutation DeleteTodo(
-    $input: DeleteTodoInput!
-    $condition: ModelTodoConditionInput
+export const deleteAnalyzedText = /* GraphQL */ `
+  mutation DeleteAnalyzedText(
+    $input: DeleteAnalyzedTextInput!
+    $condition: ModelAnalyzedTextConditionInput
   ) {
-    deleteTodo(input: $input, condition: $condition) {
+    deleteAnalyzedText(input: $input, condition: $condition) {
       id
-      name
-      description
+      text
+      engText
+      positive
+      negative
       createdAt
       updatedAt
     }
