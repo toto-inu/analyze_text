@@ -74,7 +74,6 @@ export const App = () => {
   });
   useEffect(() => {
     (async () => {
-      console.log("hoge", dispatch);
       await dispatch(fetchText());
     })();
   }, [dispatch]);
@@ -131,9 +130,8 @@ export const App = () => {
                 })
                 .slice(0, 10)
                 .map((text: Text) => {
-                  console.log(text);
                   return (
-                    <Tr>
+                    <Tr key={text.id}>
                       <Td>{text.text}</Td>
                       <Td isNumeric>{text.positive}</Td>
                       <Td isNumeric>{text.negative}</Td>
